@@ -1,6 +1,6 @@
 package dev.dcarminatti.rja_api.model.entity;
 
-import br.ufjf.rsj.api.model.enums.Status;
+import dev.dcarminatti.rja_api.model.enums.Status;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
