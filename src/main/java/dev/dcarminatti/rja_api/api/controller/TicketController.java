@@ -126,7 +126,7 @@ public class TicketController {
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
         
         // Business logic validation
-        if (currentTicket.getStatus() == Status.CLOSED && status != Status.CLOSED) {
+        if (currentTicket.getStatus() == Status.RESOLVED && status != Status.RESOLVED) {
             throw new InvalidTicketStatusException(id, currentTicket.getStatus().name(), status.name());
         }
         

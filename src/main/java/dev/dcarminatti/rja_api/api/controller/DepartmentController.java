@@ -57,42 +57,4 @@ public class DepartmentController {
         departmentService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-    // Business logic endpoints
-    @GetMapping("/name/{name}")
-    public ResponseEntity<Department> getDepartmentByName(@PathVariable String name) {
-        Department department = departmentService.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("Department", "name", name));
-        return ResponseEntity.ok(department);
-    }
-
-    @GetMapping("/location/{locationId}")
-    public ResponseEntity<List<Department>> getDepartmentsByLocation(@PathVariable Long locationId) {
-        List<Department> departments = departmentService.findByLocation(locationId);
-        return ResponseEntity.ok(departments);
-    }
-
-    @GetMapping("/manager/{managerId}")
-    public ResponseEntity<List<Department>> getDepartmentsByManager(@PathVariable Long managerId) {
-        List<Department> departments = departmentService.findByManager(managerId);
-        return ResponseEntity.ok(departments);
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<Department>> searchDepartmentsByName(@RequestParam String name) {
-        List<Department> departments = departmentService.findByNameContaining(name);
-        return ResponseEntity.ok(departments);
-    }
-
-    @GetMapping("/search/location")
-    public ResponseEntity<List<Department>> searchDepartmentsByLocationName(@RequestParam String locationName) {
-        List<Department> departments = departmentService.findByLocationName(locationName);
-        return ResponseEntity.ok(departments);
-    }
-
-    @PatchMapping("/{id}/manager/{managerId}")
-    public ResponseEntity<Department> assignManager(@PathVariable Long id, @PathVariable Long managerId) {
-        Department department = departmentService.assignManager(id, managerId);
-        return ResponseEntity.ok(department);
-    }
 }

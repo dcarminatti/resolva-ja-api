@@ -3,7 +3,6 @@ package dev.dcarminatti.rja_api.api.controller;
 import dev.dcarminatti.rja_api.exception.ResourceNotFoundException;
 import dev.dcarminatti.rja_api.exception.ResourceAlreadyExistsException;
 import dev.dcarminatti.rja_api.model.entity.Location;
-import dev.dcarminatti.rja_api.model.enums.LocationType;
 import dev.dcarminatti.rja_api.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,67 +56,5 @@ public class LocationController {
         }
         locationService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    // Business logic endpoints
-    @GetMapping("/name/{name}")
-    public ResponseEntity<Location> getLocationByName(@PathVariable String name) {
-        Location location = locationService.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("Location", "name", name));
-        return ResponseEntity.ok(location);
-    }
-
-    @GetMapping("/type/{locationType}")
-    public ResponseEntity<List<Location>> getLocationsByType(@PathVariable LocationType locationType) {
-        List<Location> locations = locationService.findByLocationType(locationType);
-        return ResponseEntity.ok(locations);
-    }
-
-    @GetMapping("/parent/{parentId}")
-    public ResponseEntity<List<Location>> getLocationsByParent(@PathVariable Long parentId) {
-        List<Location> locations = locationService.findByParentLocation(parentId);
-        return ResponseEntity.ok(locations);
-    }
-
-    @GetMapping("/root")
-    public ResponseEntity<List<Location>> getRootLocations() {
-        List<Location> locations = locationService.findRootLocations();
-        return ResponseEntity.ok(locations);
-    }
-
-    @GetMapping("/search/name")
-    public ResponseEntity<List<Location>> searchLocationsByName(@RequestParam String name) {
-        List<Location> locations = locationService.findByNameContaining(name);
-        return ResponseEntity.ok(locations);
-    }
-
-    @GetMapping("/search/description")
-    public ResponseEntity<List<Location>> searchLocationsByDescription(@RequestParam String description) {
-        List<Location> locations = locationService.findByDescriptionContaining(description);
-        return ResponseEntity.ok(locations);
-    }
-
-    @GetMapping("/{id}/children")
-    public ResponseEntity<List<Location>> getChildLocations(@PathVariable Long id) {
-        List<Location> children = locationService.findChildLocations(id);
-        return ResponseEntity.ok(children);
-    }
-
-    @GetMapping("/{id}/has-children")
-    public ResponseEntity<Boolean> hasChildLocations(@PathVariable Long id) {
-        boolean hasChildren = locationService.hasChildLocations(id);
-        return ResponseEntity.ok(hasChildren);
-    }
-
-    @PatchMapping("/{id}/parent/{parentId}")
-    public ResponseEntity<Location> setParentLocation(@PathVariable Long id, @PathVariable Long parentId) {
-        Location location = locationService.setParentLocation(id, parentId);
-        return ResponseEntity.ok(location);
-    }
-
-    @PatchMapping("/{id}/remove-parent")
-    public ResponseEntity<Location> removeParentLocation(@PathVariable Long id) {
-        Location location = locationService.setParentLocation(id, null);
-        return ResponseEntity.ok(location);
     }
 }

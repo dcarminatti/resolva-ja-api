@@ -43,37 +43,4 @@ public class TicketSubcategoryService {
     public void deleteById(Long id) {
         ticketSubcategoryRepository.deleteById(id);
     }
-
-    // Business logic methods
-    public Optional<TicketSubcategory> findByName(String name) {
-        return ticketSubcategoryRepository.findByName(name);
-    }
-
-    public List<TicketSubcategory> findByCategory(Long categoryId) {
-        return ticketSubcategoryRepository.findByCategoryId(categoryId);
-    }
-
-    public List<TicketSubcategory> findBySLA(Long slaId) {
-        return ticketSubcategoryRepository.findByAssociatedSLAId(slaId);
-    }
-
-    public List<TicketSubcategory> findByServiceType(Long serviceTypeId) {
-        return ticketSubcategoryRepository.findByServiceTypeId(serviceTypeId);
-    }
-
-    public List<TicketSubcategory> findByNameContaining(String name) {
-        return ticketSubcategoryRepository.findByNameContaining(name);
-    }
-
-    public List<TicketSubcategory> findByDescriptionContaining(String description) {
-        return ticketSubcategoryRepository.findByDescriptionContaining(description);
-    }
-
-    public List<TicketSubcategory> findByCategoryName(String categoryName) {
-        return ticketSubcategoryRepository.findByCategoryName(categoryName);
-    }
-
-    public boolean existsByName(String name) {
-        return ticketSubcategoryRepository.existsByName(name);
-    }
 }

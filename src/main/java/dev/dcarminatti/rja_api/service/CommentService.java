@@ -15,7 +15,6 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    // Basic CRUD operations
     public List<Comment> findAll() {
         return commentRepository.findAll();
     }
@@ -45,47 +44,5 @@ public class CommentService {
 
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
-    }
-
-    // Business logic methods
-    public List<Comment> findByTicket(Long ticketId) {
-        return commentRepository.findByTicketId(ticketId);
-    }
-
-    public List<Comment> findByAuthor(Long authorId) {
-        return commentRepository.findByAuthorId(authorId);
-    }
-
-    public List<Comment> findByTicketOrderedAsc(Long ticketId) {
-        return commentRepository.findByTicketIdOrderByDateTimeAsc(ticketId);
-    }
-
-    public List<Comment> findByTicketOrderedDesc(Long ticketId) {
-        return commentRepository.findByTicketIdOrderByDateTimeDesc(ticketId);
-    }
-
-    public List<Comment> findByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return commentRepository.findByDateTimeBetween(startDate, endDate);
-    }
-
-    public List<Comment> findByTextContaining(String text) {
-        return commentRepository.findByTextContaining(text);
-    }
-
-    public Long countByTicket(Long ticketId) {
-        return commentRepository.countByTicketId(ticketId);
-    }
-
-    public Long countByAuthor(Long authorId) {
-        return commentRepository.countByAuthorId(authorId);
-    }
-
-    public Comment addCommentToTicket(Long ticketId, String text, Long authorId) {
-        Comment comment = new Comment();
-        comment.setText(text);
-        comment.setDateTime(LocalDateTime.now());
-        // Here you would typically fetch the User and Ticket entities
-        // For now, we'll assume they are set elsewhere
-        return commentRepository.save(comment);
     }
 }

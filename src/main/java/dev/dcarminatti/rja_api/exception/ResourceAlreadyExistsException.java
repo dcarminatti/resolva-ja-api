@@ -1,8 +1,10 @@
 package dev.dcarminatti.rja_api.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Getter
 @ResponseStatus(HttpStatus.CONFLICT)
 public class ResourceAlreadyExistsException extends RuntimeException {
     
@@ -21,15 +23,4 @@ public class ResourceAlreadyExistsException extends RuntimeException {
         super(message);
     }
 
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public Object getFieldValue() {
-        return fieldValue;
-    }
 }

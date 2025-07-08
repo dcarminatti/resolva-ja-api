@@ -38,7 +38,6 @@ public class AttachmentController {
         if (attachmentService.existsByFileName(attachment.getFileName())) {
             throw new InvalidFileException(attachment.getFileName(), "File name already exists");
         }
-        
         Attachment savedAttachment = attachmentService.save(attachment);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAttachment);
     }
@@ -51,75 +50,10 @@ public class AttachmentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAttachment(@PathVariable Long id) {
-        if (!attachmentService.findById(id).isPresent()) {
+        if (attachmentService.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Attachment", "id", id);
         }
         attachmentService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    // Business logic endpoints
-    @GetMapping("/ticket/{ticketId}")
-    public ResponseEntity<List<Attachment>> getAttachmentsByTicket(@PathVariable Long ticketId) {
-        List<Attachment> attachments = attachmentService.findByTicket(ticketId);
-        return ResponseEntity.ok(attachments);
-    }
-
-    @GetMapping("/uploader/{uploaderId}")
-    public ResponseEntity<List<Attachment>> getAttachmentsByUploader(@PathVariable Long uploaderId) {
-        List<Attachment> attachments = attachmentService.findByUploader(uploaderId);
-        return ResponseEntity.ok(attachments);
-    }
-
-    @GetMapping("/filename/{fileName}")
-    public ResponseEntity<Attachment> getAttachmentByFileName(@PathVariable String fileName) {
-        Attachment attachment = attachmentService.findByFileName(fileName)
-                .orElseThrow(() -> new ResourceNotFoundException("Attachment", "fileName", fileName));
-        return ResponseEntity.ok(attachment);
-    }
-
-    @GetMapping("/search/filename")
-    public ResponseEntity<List<Attachment>> searchAttachmentsByFileName(@RequestParam String fileName) {
-        List<Attachment> attachments = attachmentService.findByFileNameContaining(fileName);
-        return ResponseEntity.ok(attachments);
-    }
-
-    @GetMapping("/search/url")
-    public ResponseEntity<List<Attachment>> searchAttachmentsByFileUrl(@RequestParam String url) {
-        List<Attachment> attachments = attachmentService.findByFileUrlContaining(url);
-        return ResponseEntity.ok(attachments);
-    }
-
-    @GetMapping("/count/ticket/{ticketId}")
-    public ResponseEntity<Long> countAttachmentsByTicket(@PathVariable Long ticketId) {
-        Long count = attachmentService.countByTicket(ticketId);
-        return ResponseEntity.ok(count);
-    }
-
-    @GetMapping("/count/uploader/{uploaderId}")
-    public ResponseEntity<Long> countAttachmentsByUploader(@PathVariable Long uploaderId) {
-        Long count = attachmentService.countByUploader(uploaderId);
-        return ResponseEntity.ok(count);
-    }
-
-    @PostMapping("/upload")
-    public ResponseEntity<Attachment> uploadAttachmentToTicket(
-            @RequestParam String fileName,
-            @RequestParam String fileUrl,
-            @RequestParam Long ticketId,
-            @RequestParam Long uploaderId) {
-        
-        if (fileName == null || fileName.trim().isEmpty()) {
-            throw new InvalidFileException(fileName, "File name cannot be empty");
-        }
-        
-        Attachment attachment = attachmentService.uploadAttachmentToTicket(fileName, fileUrl, ticketId, uploaderId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(attachment);
-    }
-
-    @DeleteMapping("/ticket/{ticketId}")
-    public ResponseEntity<Void> deleteAttachmentsByTicket(@PathVariable Long ticketId) {
-        attachmentService.deleteAttachmentsByTicket(ticketId);
         return ResponseEntity.noContent().build();
     }
 }

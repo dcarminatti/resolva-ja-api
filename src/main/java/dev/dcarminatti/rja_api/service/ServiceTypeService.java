@@ -40,21 +40,4 @@ public class ServiceTypeService {
     public void deleteById(Long id) {
         serviceTypeRepository.deleteById(id);
     }
-
-    // Business logic methods
-    public Optional<ServiceType> findByName(String name) {
-        return serviceTypeRepository.findByName(name);
-    }
-
-    public List<ServiceType> findByNameContaining(String name) {
-        return serviceTypeRepository.findByNameContaining(name);
-    }
-
-    public List<ServiceType> findByDescriptionContaining(String description) {
-        return serviceTypeRepository.findByDescriptionContaining(description);
-    }
-
-    public boolean existsByName(String name) {
-        return serviceTypeRepository.existsByName(name);
-    }
 }

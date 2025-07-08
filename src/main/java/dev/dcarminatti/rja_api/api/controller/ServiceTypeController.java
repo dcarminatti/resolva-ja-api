@@ -57,24 +57,4 @@ public class ServiceTypeController {
         serviceTypeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-    // Business logic endpoints
-    @GetMapping("/name/{name}")
-    public ResponseEntity<ServiceType> getServiceTypeByName(@PathVariable String name) {
-        ServiceType serviceType = serviceTypeService.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("ServiceType", "name", name));
-        return ResponseEntity.ok(serviceType);
-    }
-
-    @GetMapping("/search/name")
-    public ResponseEntity<List<ServiceType>> searchServiceTypesByName(@RequestParam String name) {
-        List<ServiceType> serviceTypes = serviceTypeService.findByNameContaining(name);
-        return ResponseEntity.ok(serviceTypes);
-    }
-
-    @GetMapping("/search/description")
-    public ResponseEntity<List<ServiceType>> searchServiceTypesByDescription(@RequestParam String description) {
-        List<ServiceType> serviceTypes = serviceTypeService.findByDescriptionContaining(description);
-        return ResponseEntity.ok(serviceTypes);
-    }
 }

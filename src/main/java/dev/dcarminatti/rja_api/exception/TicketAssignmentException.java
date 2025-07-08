@@ -1,8 +1,10 @@
 package dev.dcarminatti.rja_api.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Getter
 @ResponseStatus(HttpStatus.CONFLICT)
 public class TicketAssignmentException extends RuntimeException {
     
@@ -21,15 +23,4 @@ public class TicketAssignmentException extends RuntimeException {
         super(message);
     }
 
-    public Long getTicketId() {
-        return ticketId;
-    }
-
-    public Long getTechnicianId() {
-        return technicianId;
-    }
-
-    public String getReason() {
-        return reason;
-    }
 }

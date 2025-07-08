@@ -1,8 +1,10 @@
 package dev.dcarminatti.rja_api.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Getter
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ServiceTypeNotSupportedException extends RuntimeException {
     
@@ -24,19 +26,4 @@ public class ServiceTypeNotSupportedException extends RuntimeException {
         super(message);
     }
 
-    public Long getServiceTypeId() {
-        return serviceTypeId;
-    }
-
-    public String getServiceTypeName() {
-        return serviceTypeName;
-    }
-
-    public Long getTechnicianId() {
-        return technicianId;
-    }
-
-    public String getTechnicianName() {
-        return technicianName;
-    }
 }

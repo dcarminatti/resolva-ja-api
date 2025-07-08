@@ -1,8 +1,10 @@
 package dev.dcarminatti.rja_api.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Getter
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class UnauthorizedOperationException extends RuntimeException {
     
@@ -21,15 +23,4 @@ public class UnauthorizedOperationException extends RuntimeException {
         super(message);
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public String getResource() {
-        return resource;
-    }
 }

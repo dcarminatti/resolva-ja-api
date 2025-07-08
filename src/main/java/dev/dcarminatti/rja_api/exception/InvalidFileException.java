@@ -1,8 +1,10 @@
 package dev.dcarminatti.rja_api.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Getter
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class InvalidFileException extends RuntimeException {
     
@@ -27,15 +29,4 @@ public class InvalidFileException extends RuntimeException {
         super(message);
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public String getFileType() {
-        return fileType;
-    }
-
-    public String getReason() {
-        return reason;
-    }
 }

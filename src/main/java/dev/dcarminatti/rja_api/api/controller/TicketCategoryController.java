@@ -57,24 +57,4 @@ public class TicketCategoryController {
         ticketCategoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-    // Business logic endpoints
-    @GetMapping("/name/{name}")
-    public ResponseEntity<TicketCategory> getTicketCategoryByName(@PathVariable String name) {
-        TicketCategory category = ticketCategoryService.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("TicketCategory", "name", name));
-        return ResponseEntity.ok(category);
-    }
-
-    @GetMapping("/search/name")
-    public ResponseEntity<List<TicketCategory>> searchTicketCategoriesByName(@RequestParam String name) {
-        List<TicketCategory> categories = ticketCategoryService.findByNameContaining(name);
-        return ResponseEntity.ok(categories);
-    }
-
-    @GetMapping("/search/description")
-    public ResponseEntity<List<TicketCategory>> searchTicketCategoriesByDescription(@RequestParam String description) {
-        List<TicketCategory> categories = ticketCategoryService.findByDescriptionContaining(description);
-        return ResponseEntity.ok(categories);
-    }
 }

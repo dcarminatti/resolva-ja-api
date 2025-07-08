@@ -43,45 +43,4 @@ public class SLAService {
     public void deleteById(Long id) {
         slaRepository.deleteById(id);
     }
-
-    // Business logic methods
-    public Optional<SLA> findByName(String name) {
-        return slaRepository.findByName(name);
-    }
-
-    public List<SLA> findByPriority(Priority priority) {
-        return slaRepository.findByPriority(priority);
-    }
-
-    public List<SLA> findByMaxResponseTime(Integer maxHours) {
-        return slaRepository.findByExpectedResponseTimeHoursLessThanEqual(maxHours);
-    }
-
-    public List<SLA> findByMinResponseTime(Integer minHours) {
-        return slaRepository.findByExpectedResponseTimeHoursGreaterThanEqual(minHours);
-    }
-
-    public List<SLA> findByNameContaining(String name) {
-        return slaRepository.findByNameContaining(name);
-    }
-
-    public List<SLA> findByDescriptionContaining(String description) {
-        return slaRepository.findByDescriptionContaining(description);
-    }
-
-    public List<SLA> findAllOrderByResponseTime() {
-        return slaRepository.findAllOrderByResponseTimeAsc();
-    }
-
-    public boolean existsByName(String name) {
-        return slaRepository.existsByName(name);
-    }
-
-    public List<SLA> findHighPrioritySLAs() {
-        return slaRepository.findByPriority(Priority.HIGH);
-    }
-
-    public List<SLA> findCriticalSLAs() {
-        return slaRepository.findByPriority(Priority.CRITICAL);
-    }
 }

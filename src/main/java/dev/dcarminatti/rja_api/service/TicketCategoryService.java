@@ -40,21 +40,4 @@ public class TicketCategoryService {
     public void deleteById(Long id) {
         ticketCategoryRepository.deleteById(id);
     }
-
-    // Business logic methods
-    public Optional<TicketCategory> findByName(String name) {
-        return ticketCategoryRepository.findByName(name);
-    }
-
-    public List<TicketCategory> findByNameContaining(String name) {
-        return ticketCategoryRepository.findByNameContaining(name);
-    }
-
-    public List<TicketCategory> findByDescriptionContaining(String description) {
-        return ticketCategoryRepository.findByDescriptionContaining(description);
-    }
-
-    public boolean existsByName(String name) {
-        return ticketCategoryRepository.existsByName(name);
-    }
 }
