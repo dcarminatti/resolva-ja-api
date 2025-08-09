@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: resolva-ja-db
+    environment:
+      POSTGRES_DB: resolvadb
+      POSTGRES_USER: resolvauser
+      POSTGRES_PASSWORD: resolvapass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
