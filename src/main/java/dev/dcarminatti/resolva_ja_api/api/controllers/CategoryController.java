@@ -3,7 +3,9 @@ package dev.dcarminatti.resolva_ja_api.api.controllers;
 import dev.dcarminatti.resolva_ja_api.exceptions.ValidateException;
 import dev.dcarminatti.resolva_ja_api.models.entities.Category;
 import dev.dcarminatti.resolva_ja_api.api.dtos.CategoryDTO;
+import dev.dcarminatti.resolva_ja_api.models.entities.SLA;
 import dev.dcarminatti.resolva_ja_api.services.CategoryService;
+import dev.dcarminatti.resolva_ja_api.services.SLAService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private SLAService sLAService;
 
     @GetMapping
     public List<CategoryDTO> getAll() {
@@ -66,14 +70,20 @@ public class CategoryController {
     }
 
     private CategoryDTO toDTO(Category category) {
-        return new CategoryDTO(category.getId(), category.getName(), category.getDescription());
+        return new CategoryDTO(category.getId(), category.getName(), category.getDescription(), category.getSla() != null ? category.getSla().getId() : null);
     }
 
     private Category toEntity(CategoryDTO dto) {
+        Optional<SLA> sla = sLAService.findById(dto.slaId());
+        if (sla.isEmpty()) {
+            throw new ValidateException("SLA not found with id: " + dto.slaId());
+        }
+
         Category category = new Category();
         category.setId(dto.id());
         category.setName(dto.name());
         category.setDescription(dto.description());
+        category.setSla(sla.get());
         return category;
     }
 }

@@ -71,4 +71,8 @@ public class AttachmentService {
 
         return attachmentRepository.save(attachment);
     }
+
+    public Attachment findById(Long id) {
+        return attachmentRepository.findById(id).orElse(null);
+    }
 }

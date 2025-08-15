@@ -5,9 +5,7 @@ import dev.dcarminatti.resolva_ja_api.api.dtos.ticket.TicketDTO;
 import dev.dcarminatti.resolva_ja_api.api.dtos.ticket.TicketFeedbackDTO;
 import dev.dcarminatti.resolva_ja_api.api.dtos.ticket.TicketHistoryDTO;
 import dev.dcarminatti.resolva_ja_api.exceptions.ValidateException;
-import dev.dcarminatti.resolva_ja_api.models.entities.Ticket;
-import dev.dcarminatti.resolva_ja_api.models.entities.TicketFeedback;
-import dev.dcarminatti.resolva_ja_api.models.entities.User;
+import dev.dcarminatti.resolva_ja_api.models.entities.*;
 import dev.dcarminatti.resolva_ja_api.services.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
@@ -30,6 +29,12 @@ public class TicketController {
     private TicketHistoryService ticketHistoryService;
     @Autowired
     private TicketFeedbackService ticketFeedbackService;
+    @Autowired
+    private TechnicianService technicianService;
+    @Autowired
+    private SLAService sLAService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public ResponseEntity<List<TicketDTO>> getAll() {
@@ -86,6 +91,22 @@ public class TicketController {
             User user = userService.findById(dto.userId());
             ticket.setRequester(user);
         }
+
+        Optional<Technician> technician = technicianService.findById(dto.technicianId());
+        Optional<Category> category = categoryService.findById(dto.categoryId());
+
+        if (technician.isPresent()) {
+            ticket.setTechnician(technician.get());
+        } else {
+            ticket.setTechnician(null);
+        }
+
+        if (category.isPresent()) {
+            ticket.setCategory(category.get());
+        } else {
+            ticket.setCategory(null);
+        }
+
         return ticket;
     }
 
@@ -117,6 +138,8 @@ public class TicketController {
                 feedback != null ? feedback.getTicket().getId() : null
         );
 
+        Optional<SLA> sla = sLAService.findById(ticket.getCategory().getSla().getId());
+
         return new TicketDTO(
                 ticket.getId(),
                 ticket.getTitle(),
@@ -126,7 +149,7 @@ public class TicketController {
                 ticket.getDeadline(),
                 ticket.getRequester() != null ? ticket.getRequester().getId() : null,
                 ticket.getTechnician() != null ? ticket.getTechnician().getId() : null,
-                ticket.getSla() != null ? ticket.getSla().getId() : null,
+                sla.isPresent() ? sla.get().getId() : null,
                 ticket.getCategory() != null ? ticket.getCategory().getId() : null,
                 comments,
                 history,

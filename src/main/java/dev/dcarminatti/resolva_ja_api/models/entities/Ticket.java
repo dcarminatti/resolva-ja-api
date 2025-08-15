@@ -30,8 +30,4 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
-    @OneToOne
-    @JoinColumn(name = "sla_id")
-    private SLA sla;
 }

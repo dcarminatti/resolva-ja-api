@@ -1,9 +1,13 @@
 package dev.dcarminatti.resolva_ja_api.services;
 
+import dev.dcarminatti.resolva_ja_api.exceptions.ValidateException;
+import dev.dcarminatti.resolva_ja_api.models.entities.SLA;
 import dev.dcarminatti.resolva_ja_api.models.entities.Ticket;
 import dev.dcarminatti.resolva_ja_api.models.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +15,8 @@ import java.util.Optional;
 public class TicketService {
     @Autowired
     private TicketRepository repository;
+    @Autowired
+    private SLAService sLAService;
 
     public List<Ticket> findAll() {
         return repository.findAll();
@@ -25,6 +31,8 @@ public class TicketService {
     }
 
     public Ticket save(Ticket entity) {
+        entity.setId(null);
+        entity.setCreationDate(new Date().toString());
         this.validateTicket(entity);
         return repository.save(entity);
     }

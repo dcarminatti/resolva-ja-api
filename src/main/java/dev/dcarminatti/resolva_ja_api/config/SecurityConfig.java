@@ -4,6 +4,7 @@ import dev.dcarminatti.resolva_ja_api.security.JwtAuthFilter;
 import dev.dcarminatti.resolva_ja_api.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -38,13 +39,23 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth
-                            .requestMatchers(
-                                    "/api/v1/auth/**",
-                                    "/v3/api-docs/**",
-                                    "/swagger-ui.html",
-                                    "/swagger-ui/**"
-                            ).permitAll()
-                            .anyRequest().authenticated()
+                                .requestMatchers(
+                                        "/api/v1/auth/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**"
+                                ).permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/auth/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/ticket/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/ticket/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/attachment/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/attachment/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/sla/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/notification/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/department/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/category/**").hasAnyRole("TECHNICIAN", "USER")
+                                .requestMatchers("/api/v1/user/**").hasRole("ADMIN")
                 )
                 .userDetailsService(userService)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
